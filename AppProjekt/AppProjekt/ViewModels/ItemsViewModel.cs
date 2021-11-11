@@ -1,8 +1,11 @@
 ﻿using AppProjekt.Models;
 using AppProjekt.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -12,20 +15,17 @@ namespace AppProjekt.ViewModels
     {
         private Telemetrics _selectedItem;
 
-        public ObservableCollection<Telemetrics> Items { get; }
+        public ObservableCollection<Telemetrics> Telemetrics { get; }
         public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
         public Command<Telemetrics> ItemTapped { get; }
 
         public ItemsViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Telemetrics>();
+            Telemetrics = new ObservableCollection<Telemetrics>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Telemetrics>(OnItemSelected);
 
-            AddItemCommand = new Command(OnAddItem);
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -34,12 +34,13 @@ namespace AppProjekt.ViewModels
 
             try
             {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                Telemetrics.Clear();
+                var teles = await TeleService.GetTelemetricsAsync();
+                foreach (var item in teles.feeds)
                 {
-                    Items.Add(item);
+                    Telemetrics.Add(new Models.Telemetrics { Id= item.entry_id, Temperature = float.Parse(item.field1), CreatedAt = item.created_at });
                 }
+
             }
             catch (Exception ex)
             {
@@ -54,31 +55,25 @@ namespace AppProjekt.ViewModels
         public void OnAppearing()
         {
             IsBusy = true;
-            SelectedItem = null;
         }
 
-        public Telemetrics SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                SetProperty(ref _selectedItem, value);
-                OnItemSelected(value);
-            }
+
+        private string createdAt;
+
+        public string CreatedAt 
+        { 
+            get => createdAt; 
+            set => SetProperty(ref createdAt, value); 
         }
 
-        private async void OnAddItem(object obj)
-        {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
-        }
+        
 
-        async void OnItemSelected(Telemetrics item)
-        {
-            if (item == null)
-                return;
+        private string temperature;
 
-            // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+        public string Temperature 
+        { 
+            get => temperature; 
+            set => SetProperty(ref temperature, value); 
         }
     }
 }

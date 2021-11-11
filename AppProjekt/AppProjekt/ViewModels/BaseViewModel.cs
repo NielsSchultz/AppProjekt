@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TinyIoC;
 using Xamarin.Forms;
 
 namespace AppProjekt.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Telemetrics> DataStore => DependencyService.Get<IDataStore<Telemetrics>>();
+        public ITelemetricsService TeleService => TinyIoCContainer.Current.Resolve<ITelemetricsService>();
 
         bool isBusy = false;
         public bool IsBusy

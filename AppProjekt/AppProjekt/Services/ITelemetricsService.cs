@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AppProjekt.Services
 {
-    public interface ITelemtricsService
+    public interface ITelemetricsService
     {
-        Task<IEnumerable<Telemetrics>> GetTelemtricsAsync();
+        Task<RootObject> GetTelemetricsAsync();
     }
 }

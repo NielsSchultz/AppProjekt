@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace AppProjekt.Repository
 {
@@ -16,9 +17,9 @@ namespace AppProjekt.Repository
 
         public GenericRepository()
         {
-#if DEBUG
+            #if DEBUG
             httpClientHandler.ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true;
-#endif
+            #endif
             httpClient = new HttpClient(httpClientHandler);
         }
 
@@ -30,8 +31,8 @@ namespace AppProjekt.Repository
                 ConfigureHttpClient(authToken);
 
                 string jsonResult = string.Empty;
-
-                HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
+                string testuri = "https://api.thingspeak.com/channels/1321079/feeds.json?results=10";
+                HttpResponseMessage responseMessage = await httpClient.GetAsync(testuri);
 
                 if (responseMessage.IsSuccessStatusCode)
                 {

@@ -9,7 +9,7 @@ using TinyIoC;
 
 namespace AppProjekt.Services
 {
-    internal class TelemetricsService : ITelemtricsService  
+    internal class TelemetricsService : ITelemetricsService  
     {
         private readonly IGenericRepository _genericRepository;
         public TelemetricsService()
@@ -17,14 +17,14 @@ namespace AppProjekt.Services
             _genericRepository = TinyIoCContainer.Current.Resolve<IGenericRepository>();
         }
 
-        public async Task<IEnumerable<Telemetrics>> GetTelemetricsAsync()
+        public async Task<RootObject> GetTelemetricsAsync()
         {
             UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
             {
-                Path = ApiConstants.ItemsEndpoint
+                Path = ApiConstants.TelemetricsEndpoint
             };
             //Thread.Sleep(3000); // Simulerer 3 sekunders forsinkelte
-            return await _genericRepository.GetAsync<IEnumerable<Telemetrics>>(builder.ToString());
+            return await _genericRepository.GetAsync<RootObject>(builder.ToString());
         }
 
     }

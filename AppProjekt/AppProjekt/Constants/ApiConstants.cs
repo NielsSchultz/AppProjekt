@@ -7,7 +7,10 @@ namespace AppProjekt.Constants
 {
     public static class ApiConstants
     {
-        public static string BaseApiUrl = Device.RuntimePlatform == Device.Android ? "https://10.0.2.2:5001/" : "https://localhost:5001/";
-        public const string ItemsEndpoint = "api/items";
+        //public static string BaseApiUrl = Device.RuntimePlatform == Device.Android ? "https://api.thingspeak.com/channels" : "https://localhost:5001/";
+        //public const string TelemetricsEndpoint = "/1321079/feeds.json?results=10";
+        public static string BaseApiUrl = Device.RuntimePlatform == Device.Android ? "https://api.thingspeak.com" : "https://localhost:5001/";
+       
+        public const string TelemetricsEndpoint = "/1321079/feeds.json?results=10";
     }
 }

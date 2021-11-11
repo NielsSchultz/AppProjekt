@@ -17,7 +17,7 @@ namespace AppProjekt
 
             var container = TinyIoCContainer.Current;
             container.Register<IGenericRepository, GenericRepository>();
-            container.Register<IItemsService, ItemsService>();
+            container.Register<ITelemetricsService, TelemetricsService>();
 
             MainPage = new AppShell();
         }
