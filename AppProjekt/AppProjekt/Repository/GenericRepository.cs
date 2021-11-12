@@ -31,8 +31,8 @@ namespace AppProjekt.Repository
                 ConfigureHttpClient(authToken);
 
                 string jsonResult = string.Empty;
-                string testuri = "https://api.thingspeak.com/channels/1321079/feeds.json?results=10";
-                HttpResponseMessage responseMessage = await httpClient.GetAsync(testuri);
+                
+                HttpResponseMessage responseMessage = await httpClient.GetAsync(uri);
 
                 if (responseMessage.IsSuccessStatusCode)
                 {

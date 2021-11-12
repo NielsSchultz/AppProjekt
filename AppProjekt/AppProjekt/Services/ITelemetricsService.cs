@@ -8,6 +8,6 @@ namespace AppProjekt.Services
 {
     public interface ITelemetricsService
     {
-        Task<RootObject> GetTelemetricsAsync();
+        Task<RootObject> GetTelemetricsAsync(string uri);
     }
 }

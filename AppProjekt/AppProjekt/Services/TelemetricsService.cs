@@ -17,14 +17,14 @@ namespace AppProjekt.Services
             _genericRepository = TinyIoCContainer.Current.Resolve<IGenericRepository>();
         }
 
-        public async Task<RootObject> GetTelemetricsAsync()
+        public async Task<RootObject> GetTelemetricsAsync(string uri)
         {
-            UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
-            {
-                Path = ApiConstants.TelemetricsEndpoint
-            };
+            //UriBuilder builder = new UriBuilder(ApiConstants.BaseApiUrl)
+            //{
+            //    Path = ApiConstants.TelemetricsEndpoint
+            //};
             //Thread.Sleep(3000); // Simulerer 3 sekunders forsinkelte
-            return await _genericRepository.GetAsync<RootObject>(builder.ToString());
+            return await _genericRepository.GetAsync<RootObject>(uri);
         }
 
     }

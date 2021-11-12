@@ -4,7 +4,11 @@
              x:Class="AppProjekt.Views.ItemsPage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:AppProjekt.ViewModels"  
-             xmlns:model="clr-namespace:AppProjekt.Models"  
+             xmlns:model="clr-namespace:AppProjekt.Models" 
+             xmlns:behavior="clr-namespace:AppProjekt.Behaviors" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
+             x:DataType="local:ItemsViewModel"
              x:Name="BrowseItemsPage">
 
     
@@ -12,31 +16,54 @@
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
       https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
-    <RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="ItemsListView"
+    <ContentPage.Content>
+        <StackLayout>
+            <Picker Title="Vælg tidsrum" 
+                        ItemsSource="{Binding Filters}"
+                        SelectedItem="{Binding FilterSelected}">
+                <Picker.Behaviors>
+                    <xct:EventToCommandBehavior
+                            EventName="SelectedIndexChanged"
+                            Command="{Binding LoadItemsCommand}"
+                        />
+                </Picker.Behaviors>
+            </Picker> 
+                    
+            <RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                <microcharts:ChartView x:Name="Telemetrics" />
+                <!--<CollectionView x:Name="ItemsListView"
                 ItemsSource="{Binding Telemetrics}"
                 SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Telemetrics">
-                        <Label Text="{Binding Temperature}" 
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10" x:DataType="model:Telemetrics">
+                                <Label Text="{Binding Temperature}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
                             FontSize="16" />
-                        <Label Text="{Binding CreatedAt}" 
+                                <Label Text="{Binding Humidity}" 
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource ListItemTextStyle}"
                             FontSize="16" />
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer 
+                                <Label Text="{Binding CreatedAt}" 
+                            LineBreakMode="NoWrap"
+                            Style="{DynamicResource ListItemTextStyle}"
+                            FontSize="16" />
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
                                 CommandParameter="{Binding .}">
-                            </TapGestureRecognizer>
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>-->
+            </RefreshView>
+        </StackLayout>
+        
+        
+    </ContentPage.Content>
+    
 </ContentPage>

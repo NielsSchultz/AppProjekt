@@ -21,6 +21,10 @@ namespace AppProjekt.Views
             InitializeComponent();
 
             BindingContext = _viewModel = new ItemsViewModel();
+            //MessagingCenter.Subscribe<ItemsViewModel, Telemetrics>(this, "AgeButtonClicked", (sender, arg) =>
+            //{
+            //    DisplayAlert("Age", $"{arg.Name} er {arg.Age} år!", "OK");
+            //});
         }
 
         protected override void OnAppearing()
